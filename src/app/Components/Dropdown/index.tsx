@@ -1,13 +1,9 @@
-import { Option } from "@/app/hooks/useFetchData"
-import styles from './styles.module.scss'
-import { cn } from "@/app/helpers"
 import { RefObject, useEffect, useRef, useState } from "react"
 import { AutoSizer, List } from 'react-virtualized'
-
-// this is the number which indicates which element from the end will trigger pagination
-// For example, if we have total of 80 items and ITEM_FROM_THE_END = 5 
-// then 80 - 5 = 75. Pagination will trigger on the 75th element
-const ITEM_FROM_THE_END = 5 
+import { cn } from "@/app/helpers"
+import { Option } from "@/app/hooks/useFetchData"
+import { ITEM_FROM_THE_END } from "@/app/helpers/configConstants"
+import styles from './styles.module.scss'
 
 interface Props {
     options: Option[]
@@ -76,7 +72,7 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
         return () => document.removeEventListener('keydown', keyboardHandler)
     },[])
 
-    if (options.length === 0) return <div>no options</div>
+    if (options.length === 0) return <div>no options</div> // super simple placeholder
 
     return <div className={styles.container} ref={containerRef} onKeyDown={(e) => e.preventDefault()}>
         <AutoSizer>{({ width, height }) => 
