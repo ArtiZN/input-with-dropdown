@@ -1,8 +1,9 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 import { useInView } from "react-intersection-observer";
-import Dropdown from "./Dropdown"
-import useFetchData, { Option } from "../hooks/useFetchData"
+import Dropdown from "../Dropdown"
+import useFetchData, { Option } from "../../hooks/useFetchData"
+import styles from './styles.module.scss'
 
 interface Props {
     onChange: (value: Option | null) => void
@@ -56,7 +57,7 @@ const Input = ({ onChange }: Props) => {
         };
       }, []);
 
-    return <>
+    return <div className={styles.container}>
         <input 
             value={search} 
             onChange={(e) => setSearch(e.target.value)} 
@@ -75,7 +76,7 @@ const Input = ({ onChange }: Props) => {
                     inputRef.current?.blur()
                 }}
             />}
-    </>
+    </div>
 }
 
 export default Input
