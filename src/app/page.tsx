@@ -1,5 +1,5 @@
-import Input from "./Components/Input";
-import styles from "./page.module.css";
+import Input from "./Components/Input"
+import styles from "./page.module.css"
 
 export default function Home() {
 

@@ -2,6 +2,7 @@ import { Option } from "@/app/hooks/useFetchData"
 import styles from './styles.module.scss'
 import { cn } from "@/app/helpers"
 import { RefObject, useEffect, useRef, useState } from "react"
+import { AutoSizer, List } from 'react-virtualized'
 
 // this is the number which indicates which element from the end will trigger pagination
 // For example, if we have total of 80 items and ITEM_FROM_THE_END = 5 
@@ -19,6 +20,7 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
 
     const [activeOption, setActiveOption] = useState<Option | null>(options[0] ?? null)
 
+    // need to access current value in event listeners. Can't use state because of closures
     const optionsRef = useRef(options)
     const activeOptionRef = useRef(activeOption)
 
@@ -37,7 +39,7 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
     const scrollToElement = (elementId: string, align: ScrollLogicalPosition) => {
         const el = document.getElementById(elementId)
         if (el) {
-            el.scrollIntoView({ behavior: "smooth", block: align, inline: "nearest" })
+            el.scrollIntoView({ block: align, inline: "nearest" })
         }        
     }
 
@@ -49,7 +51,7 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
             case 'ArrowUp':  {
                 if (index > 0){
                     setActiveOption(options[index - 1])
-                    scrollToElement(options[index - 1].objectId, 'end')
+                    scrollToElement(options[index - 1].objectId, 'center')
                 }
                 break;
             }
@@ -57,16 +59,18 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
                 const nextOption: Option | undefined = options[index + 1]
                 if (nextOption) {
                     setActiveOption(nextOption)
-                    scrollToElement(nextOption.objectId, 'start')
+                    scrollToElement(nextOption.objectId, 'center')
                 }
                 break;
             }
+            case 'ArrowRight':
             case 'Enter': {
                 onSubmit()
                 break;
             }
         }
     }
+
     useEffect(() => {
         document.addEventListener('keydown', keyboardHandler)
         return () => document.removeEventListener('keydown', keyboardHandler)
@@ -74,20 +78,32 @@ const Dropdown = ({ options, onChange, containerRef, triggerRef }: Props) => {
 
     if (options.length === 0) return <div>no options</div>
 
-
-    
-    return <div className={styles.container} ref={containerRef}>
-        {options.map((i, index, array) => 
-            <div 
-                className={cn(styles.option, i.objectId === activeOption?.objectId && styles['option--active'])} 
-                onMouseEnter={() => setActiveOption(i)}
-                key={i.objectId}
-                onClick={onSubmit}
-                id={i.objectId}
-                ref={index === array.length - ITEM_FROM_THE_END ? triggerRef : undefined}
-            >
-                {i.Name}
-            </div>)}
+    return <div className={styles.container} ref={containerRef} onKeyDown={(e) => e.preventDefault()}>
+        <AutoSizer>{({ width, height }) => 
+            <List 
+                height={height} 
+                rowHeight={50} 
+                rowCount={options.length} 
+                width={width}
+                rowRenderer={({
+                    index,
+                    style,
+                  }) => {
+                    const item = options[index]
+                    return <div 
+                        style={style}
+                        className={cn(styles.option, item.objectId === activeOption?.objectId && styles['option--active'])} 
+                        onMouseEnter={() => setActiveOption(item)}
+                        key={item.objectId}
+                        onClick={onSubmit}
+                        id={item.objectId}
+                        ref={index === options.length - ITEM_FROM_THE_END ? triggerRef : undefined}
+                    >
+                        {item.Name}
+                    </div>
+                }}
+        />}
+        </AutoSizer>
     </div>
 }
 

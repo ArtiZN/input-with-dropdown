@@ -1,7 +1,6 @@
 .container {
     height: 300px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    width: 500px;
 }
 
 .option {
@@ -13,6 +12,6 @@
 
     &--active {
         background-color: bisque;
-        border-radius: var(--border-radius);
+        // border-radius: var(--border-radius); // I wanted to make it a bit rounded but with scroll it looks extremely ugly
     }
 }

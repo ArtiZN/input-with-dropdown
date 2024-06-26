@@ -72,7 +72,7 @@ const useFetchData = ({ search, isTrigger }: Props) => {
     };
 
     useEffect(() => {
-        if (!loadingRef.current && isTrigger) {
+        if (!loadingRef.current) {
             fetchData();
         }
     }, [page, search]);
