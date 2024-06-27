@@ -12,6 +12,6 @@
 
     &--active {
         background-color: bisque;
-        // border-radius: var(--border-radius); // I wanted to make it a bit rounded but with scroll it looks extremely ugly
+        border-radius: var(--border-radius);
     }
 }

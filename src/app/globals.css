@@ -16,6 +16,28 @@
   --font-large: 32px;
   --font-medium: 24px;
   --font-small: 16px;
+
+}
+div::-webkit-scrollbar {
+  width: 6px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 
@@ -51,30 +73,3 @@ body {
   background: var(--background)
 }
 
-body {
-  scrollbar-width: thin; 
-  scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.1); 
-}
-
-
-::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-::-webkit-scrollbar-thumb:active {
-  background-color: rgba(0, 0, 0, 0.7);
-}
